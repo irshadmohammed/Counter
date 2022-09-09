@@ -1,5 +1,7 @@
 import React from 'react'
+import { additionFlag } from './action';
 import './Home.css';
+import { connect } from 'react-redux';
 
 class Home extends React.Component {
   constructor(props) {
@@ -43,8 +45,8 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home__container">
-        <h3 className='home__Heading'>Counter: {this.state.counterValue}</h3>
-        <button className='home__button' onClick={() => this.performCalculation("add")}>Add</button>
+        <h3 className='home__Heading'>Counter: {this.props.currentValue}</h3>
+        <button className='home__button' onClick={() => this.props.additionFlag(1)}>Add</button>
         <button className='home__button' onClick={() => this.performCalculation("sub")}>Subtract</button>
         <button className='home__button' onClick={() => this.performCalculation("reset")}>Reset</button>
         <button className='home__button mt-15' onClick={() => this.performCalculation("double")}>Double</button>
@@ -55,4 +57,14 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  currentValue: state.value
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    additionFlag: (data) => dispatch(additionFlag(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
